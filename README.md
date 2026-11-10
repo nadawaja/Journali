@@ -1,0 +1,1 @@
+Journali is a journaling app built only with Swift and SwiftUI. A user can create, edit and delete journal entries, bookmark them, search them, and filter to see only bookmarked ones. Entries are saved on the phone, so they are still there when the app is reopened.
