@@ -6,8 +6,13 @@
 	objectVersion = 90;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0120F34530AC6F92008B8552 /* Journali.icon in Resources */ = {isa = PBXBuildFile; fileRef = 0120F34430AC6F92008B8552 /* Journali.icon */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		000000000000000000000120 /* Journali.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journali.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000120 /* Journali.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Journali.app; path = /Users/nada/Documents/Journali/build/Debug/Journali.app; sourceTree = "<absolute>"; };
+		0120F34430AC6F92008B8552 /* Journali.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Journali.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -31,16 +36,8 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000010 /* Journali */,
-				000000000000000000000020 /* Products */,
+				0120F34430AC6F92008B8552 /* Journali.icon */,
 			);
-			sourceTree = "<group>";
-		};
-		000000000000000000000020 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				000000000000000000000120 /* Journali.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,7 +86,7 @@
 			mainGroup = 000000000000000000000001;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 90;
-			productRefGroup = 000000000000000000000020 /* Products */;
+			productRefGroup = 000000000000000000000001;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -102,6 +99,7 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				0120F34530AC6F92008B8552 /* Journali.icon in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
@@ -250,7 +248,7 @@
 		000000000000000111000000 /* Debug configuration for PBXNativeTarget "Journali" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Journali;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -289,7 +287,7 @@
 		000000000000000112000000 /* Release configuration for PBXNativeTarget "Journali" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Journali;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
