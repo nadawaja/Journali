@@ -88,6 +88,7 @@ final class JournalViewModel: ObservableObject {
     }
 }
 
+// for date showing on the note
 extension Date {
     var shortText: String {
         let formatter = DateFormatter()
