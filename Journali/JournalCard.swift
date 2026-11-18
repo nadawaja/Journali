@@ -2,8 +2,9 @@
 //  JournalCard.swift
 //  Journali
 //
-//  Created by Nada on 30/05/1448 AH.
+//  Created by Nada on 08/06/1448 AH.
 //
+
 
 import SwiftUI
 

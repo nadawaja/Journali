@@ -11,7 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		000000000000000000000120 /* Journali.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Journali.app; path = /Users/nada/Documents/Journali/build/Debug/Journali.app; sourceTree = "<absolute>"; };
+		000000000000000000000120 /* Journali.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journali.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0120F34430AC6F92008B8552 /* Journali.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Journali.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,6 +37,7 @@
 			children = (
 				000000000000000000000010 /* Journali */,
 				0120F34430AC6F92008B8552 /* Journali.icon */,
+				000000000000000000000120 /* Journali.app */,
 			);
 			sourceTree = "<group>";
 		};

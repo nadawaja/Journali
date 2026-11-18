@@ -1,12 +1,4 @@
 //
-//  SortOption.swift
-//  Journali
-//
-//  Created by Nada on 08/06/1448 AH.
-//
-
-
-//
 //  JournalViewModel.swift
 //  Journali
 //

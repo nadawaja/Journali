@@ -5,10 +5,10 @@
 //  Created by Nada on 30/05/1448 AH.
 //
 
-
 import SwiftUI
 
 extension Color {
+    // Makes a color from a hex number, for example Color(hex: 0x7F81FF)
     init(hex: UInt) {
         self.init(
             red: Double((hex >> 16) & 0xFF) / 255,
@@ -18,8 +18,9 @@ extension Color {
     }
 }
 
+// All colors and fonts from the design file, in one place
 enum Theme {
-    // Colors
+    // MARK: - Colors
     static let primary = Color(hex: 0x7F81FF)
     static let accentText = Color(hex: 0xAF99FD)
     static let textPrimary = Color.white
@@ -27,8 +28,9 @@ enum Theme {
     static let card = Color(hex: 0x1C1C1E)
     static let background = Color.black
     static let destructive = Color(hex: 0xFD453C)
+    static let splashGradientEnd = Color(hex: 0x1A1A2E)
 
-    // Fonts (SF Pro is the default system font)
+    // MARK: - Fonts (SF Pro is the default system font)
     static let display = Font.system(size: 42, weight: .black)
     static let headingL = Font.system(size: 34, weight: .bold)
     static let headingM = Font.system(size: 24, weight: .bold)

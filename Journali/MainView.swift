@@ -14,29 +14,21 @@ struct MainView: View {
     @State private var journalToDelete: Journal?    // journal waiting for delete confirmation
     @State private var showDeleteAlert = false
 
-    // The red trash button that appears when you swipe a card
-    private func deleteButton(for journal: Journal) -> some View {
-        Button {
-            journalToDelete = journal
-            showDeleteAlert = true
-        } label: {
-            Image(systemName: "trash.fill")
-        }
-        .tint(Theme.destructive)
-    }
-
     var body: some View {
         NavigationStack {
             ZStack {
                 Theme.background.ignoresSafeArea()
 
                 if viewModel.journals.isEmpty {
+                    // No journals at all
                     EmptyStateView()
                 } else if viewModel.visibleJournals.isEmpty {
+                    // Journals exist, but none match the search or filter
                     Text("No journals found")
                         .font(Theme.captionM)
                         .foregroundStyle(Theme.textSecondary)
                 } else {
+                    // The list of journal cards
                     List {
                         ForEach(viewModel.visibleJournals) { journal in
                             JournalCard(journal: journal) {
@@ -66,15 +58,7 @@ struct MainView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(spacing: 16) {
                         // Filter menu
-                        Menu {
-                            Picker("Sort", selection: $viewModel.sortOption) {
-                                Text("Sort by Entry Date").tag(SortOption.date)
-                                Text("Sort by Bookmark").tag(SortOption.bookmark)
-                            }
-                            .pickerStyle(.inline)
-                        } label: {
-                            Image(systemName: "line.3.horizontal.decrease")
-                        }
+                        FilterMenu(sortOption: $viewModel.sortOption)
 
                         // Add new journal
                         Button {
@@ -82,14 +66,13 @@ struct MainView: View {
                         } label: {
                             Image(systemName: "plus")
                         }
+                        .accessibilityLabel("New Journal")
                     }
                     .foregroundStyle(Theme.textPrimary)
                 }
             }
             .sheet(item: $editorJournal) { journal in
-                EditorView(journal: journal, onSave: { savedJournal in
-                    viewModel.saveJournal(savedJournal)
-                })
+                EditorView(journal: journal, viewModel: viewModel)
             }
             .alert("Delete Journal?", isPresented: $showDeleteAlert) {
                 Button("Cancel", role: .cancel) { }
@@ -103,61 +86,16 @@ struct MainView: View {
             }
         }
     }
-}
 
-struct EmptyStateView: View {
-    var body: some View {
-        VStack(spacing: 12) {
-            Image("openBook")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 140)
-
-            Text("Begin Your Journal")
-                .font(Theme.headingM)
-                .foregroundStyle(Theme.accentText)
-
-            Text("Craft your personal diary, tap the plus icon to begin")
-                .font(Theme.captionM)
-                .foregroundStyle(Theme.textSecondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 40)
+    // The red trash button that appears when you swipe a card
+    private func deleteButton(for journal: Journal) -> some View {
+        Button {
+            journalToDelete = journal
+            showDeleteAlert = true
+        } label: {
+            Image(systemName: "trash.fill")
         }
-    }
-}
-
-struct JournalCard: View {
-    let journal: Journal
-    let onBookmark: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text(journal.title)
-                    .font(Theme.titleCard)
-                    .foregroundStyle(Theme.accentText)
-
-                Spacer()
-
-                Button(action: onBookmark) {
-                    Image(systemName: journal.isBookmarked ? "bookmark.fill" : "bookmark")
-                        .foregroundStyle(journal.isBookmarked ? Theme.primary : Theme.textPrimary)
-                }
-                .buttonStyle(.plain)
-            }
-
-            Text(journal.date.shortText)
-                .font(Theme.captionS)
-                .foregroundStyle(Theme.textSecondary)
-
-            Text(journal.text)
-                .font(Theme.bodyM)
-                .foregroundStyle(Theme.textPrimary)
-                .lineLimit(4)
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.card)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .tint(Theme.destructive)
+        .accessibilityLabel("Delete")
     }
 }

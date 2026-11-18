@@ -5,14 +5,6 @@
 //  Created by Nada on 08/06/1448 AH.
 //
 
-
-//
-//  EmptyStateView.swift
-//  Journali
-//
-//  Created by Nada on 30/05/1448 AH.
-//
-
 import SwiftUI
 
 // Shown when there are no journals yet
