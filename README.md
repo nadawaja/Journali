@@ -165,14 +165,6 @@ Journali.icon                      # App icon (made with Icon Composer)
 
 With a free Apple ID the app expires after 7 days. Plug in and run again to renew it.
 
-## 🗺️ Ideas for next time
-
-- [ ] Unit tests for `JournalViewModel`
-- [ ] Move storage from `UserDefaults` to SwiftData
-- [ ] Face ID lock for private entries
-- [ ] Mood or tag for each entry
-- [ ] Home Screen widget with a recent entry
-
 ## 👤 Author
 
 Built by **Nada Awaja** as a challenge to prove I can ship.
