@@ -23,7 +23,7 @@ struct JournaliApp: App {
             }
             .preferredColorScheme(.dark)
             .task {
-                try? await Task.sleep(nanoseconds: 2_000_000_000)
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
                 withAnimation { showSplash = false }
             }
         }

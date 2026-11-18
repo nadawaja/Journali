@@ -5,7 +5,6 @@
 //  Created by Nada on 30/05/1448 AH.
 //
 
-
 import SwiftUI
 
 struct SplashView: View {
