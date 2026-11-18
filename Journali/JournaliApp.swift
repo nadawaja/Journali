@@ -11,6 +11,9 @@ import SwiftUI
 struct JournaliApp: App {
     @State private var showSplash = true
 
+    // How long the splash screen stays before the main screen appears
+    private let splashDuration: Duration = .seconds(2)
+
     var body: some Scene {
         WindowGroup {
             ZStack {
@@ -23,7 +26,7 @@ struct JournaliApp: App {
             }
             .preferredColorScheme(.dark)
             .task {
-                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                try? await Task.sleep(for: splashDuration)
                 withAnimation { showSplash = false }
             }
         }
