@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Screenshots/app-icon.png" width="140" alt="Journali app icon" />
+  <img src="icon.png" width="140" alt="Journali app icon" />
 </p>
 
 <h1 align="center">Journali</h1>
@@ -24,13 +24,14 @@
 
 Journali is a small, fast, offline journaling app for iPhone.
 
-- **Write** a new entry with a title and free text
+- **Write** a new entry with a title and free text. The save button stays disabled until there is a title.
 - **Edit** any entry by tapping its card
-- **Delete** with a swipe, followed by a confirmation alert
-- **Bookmark** the entries that matter most
-- **Search** across titles *and* text
-- **Filter** to see all entries (newest first) or only bookmarked ones
+- **Delete** by swiping a card (either direction), followed by a confirmation alert
+- **Bookmark** the entries that matter most with the bookmark icon on each card
+- **Search** across titles *and* text (typing only spaces won't hide your journals)
+- **Filter** with *Sort by Bookmark* (only bookmarked entries) or *Sort by Entry Date* (all entries, newest first)
 - **Never lose words by accident**: closing the editor with unsaved changes asks first, and the sheet cannot be swiped away while you have unsaved text
+- **Ready to type**: the keyboard opens in the title for a new journal, and in the text when you edit one
 - **Accessible**: every icon-only button has a VoiceOver label
 - **Remembers everything**: entries are saved on the device and are still there after you close the app
 
@@ -38,7 +39,7 @@ Journali is a small, fast, offline journaling app for iPhone.
 
 | Splash | Empty state | Journal list | Editor |
 |:---:|:---:|:---:|:---:|
-| <img src="Screenshots/splash.png" width="200" alt="Journali splash screen" /> | <img src="Screenshots/empty-state.png" width="200" alt="Empty state with the Begin Your Journal message" /> | <img src="Screenshots/journal-list.png" width="200" alt="List of journal cards with search bar" /> | <img src="Screenshots/editor.png" width="200" alt="New journal editor sheet" /> |
+| <img src="splash.png" width="200" alt="Journali splash screen" /> | <img src="empty.png" width="200" alt="Empty state with the Begin Your Journal message" /> | <img src="list.png" width="200" alt="List of journal cards with search bar" /> | <img src="editor.png" width="200" alt="New journal editor sheet" /> |
 
 <sub>Screenshots taken on an iPhone 17.</sub>
 
@@ -52,15 +53,16 @@ flowchart LR
     C -->|Yes| E["Journal list"]
     D -->|"tap +"| F["Editor sheet"]
     E -->|"tap + or a card"| F
-    F -->|"✓ Save"| E
+    F -->|"✓ Save (needs a title)"| E
     F -->|"✕ Close"| G{"Unsaved changes?"}
     G -->|No| E
     G -->|Yes| H["Discard alert"]
-    H -->|"Discard"| E
-    H -->|"Keep editing"| F
+    H -->|"Discard Changes"| E
+    H -->|"Keep Editing"| F
     E -->|"swipe a card"| I["Trash button"]
     I --> J["Delete alert"]
     J -->|"Delete"| E
+    J -->|"Cancel"| E
 ```
 
 ## 🏗️ Architecture: MVVM, kept simple
@@ -73,32 +75,36 @@ flowchart TD
     VM -->|"save / load as JSON"| S[("UserDefaults")]
 ```
 
-- **Model:** `Journal` is a plain struct (`Identifiable`, `Codable`).
-- **ViewModel:** `JournalViewModel` owns the list, the search text and the filter. It sorts, filters, searches, adds, edits, deletes, and saves everything on the device.
-- **Views:** the screens only display data and report taps. They never decide *how* things are saved.
-- One editor screen handles both **New** and **Edit**. The ViewModel checks the entry's `id`: found means update, not found means add.
+- **Model:** `Journal` is a plain struct (`Identifiable`, `Codable`) with a title, text, date and bookmark flag.
+- **ViewModel:** `JournalViewModel` owns the list, the search text and the filter. It sorts, filters, searches, adds, edits, deletes and bookmarks, and it saves the list on the device every time it changes.
+- **Views:** the screens only display data and report taps. `EditorView` hands the typed title and text to the ViewModel, and `JournalCard` reports bookmark taps back to it. The views never decide *how* things are saved.
+- One editor screen handles both **New** and **Edit**. The ViewModel trims the title, then checks the entry's `id`: found means update, not found means add.
 - The state tools each have one clear job:
   - `@StateObject` creates the ViewModel once in `MainView`
   - `@ObservedObject` shares it with `EditorView`
   - `@Binding` lets `FilterMenu` change the filter
   - `@State` holds what each screen controls on its own
+  - `@FocusState` decides where the keyboard opens
 
-## 🎨 Built exactly to spec
+## 🎨 Built to spec
 
 The design file defined everything, so the code follows it:
 
 | Token | Value | Used for |
 |---|---|---|
-| Primary | `#7F81FF` | Save button, active actions |
+| Primary | `#7F81FF` | Save button, filled bookmark |
 | Accent text | `#AF99FD` | Journal titles, empty-state heading |
-| Text primary | `#FFFFFF` | Headings, journal content |
-| Secondary text | `#A39A9A` | Entry dates |
+| Text primary | `#FFFFFF` | Headings, journal content, icons |
+| Secondary text | `#A39A9A` | Entry dates, placeholders |
 | Surface | `#1C1C1E` | Cards, editor sheet |
 | Background | `#000000` | Main screen |
 | Destructive | `#FD453C` | Delete |
 
-- **Typography:** SF Pro, using the design's full type scale (Display 42 down to Caption 14).
+Plus one extra shade, `#1A1A2E`, for the bottom of the splash screen gradient.
+
+- **Typography:** SF Pro. All nine text styles from the design (Display 42 down to Caption 14) are defined in `Theme`, and the screens use the ones they need.
 - **Icons:** SF Symbols only (`xmark`, `bookmark`, `bookmark.fill`, `trash.fill`, `checkmark`, `plus`, `line.3.horizontal.decrease`).
+- **Illustrations:** `notebook` on the splash screen and `openBook` in the empty state.
 - **Components:** native iOS alerts, keyboard and navigation, following Apple's Human Interface Guidelines.
 
 All colors and fonts live in one file, `Theme.swift`, so changing the look means editing one line.
@@ -115,7 +121,7 @@ All colors and fonts live in one file, `Theme.swift`, so changing the look means
 | List interactions | `.swipeActions`, confirmation alerts |
 | Forms | `TextField`, `TextEditor` (with a custom placeholder) |
 | Persistence | `Codable` + JSON + `UserDefaults` |
-| UX details | Empty state, auto-focused keyboard, drag-to-dismiss keyboard, VoiceOver labels |
+| UX details | Empty state, "No journals found" message, smart keyboard focus, drag-to-dismiss keyboard, VoiceOver labels |
 
 **Zero third-party dependencies.** Only Apple frameworks: SwiftUI, Combine and Foundation.
 
@@ -140,7 +146,7 @@ Journali/
 │   └── Theme.swift                # Colors and fonts from the design file
 ├── Utilities/
 │   └── Date+Format.swift          # dd/MM/yyyy dates
-└── Assets.xcassets                # Illustrations
+└── Assets.xcassets                # notebook and openBook illustrations
 
 Journali.icon                      # App icon (made with Icon Composer)
 ```
